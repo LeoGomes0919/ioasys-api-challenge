@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express, { Request, Response, NextFunction } from "express";
 import { routes } from "./routes/index.routes";
 import { AppError } from "../../errors/AppError";
+import "../typeorm";
 
 const app = express();
 app.use(express.json());
