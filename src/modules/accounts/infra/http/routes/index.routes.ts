@@ -6,6 +6,6 @@ import { authRoutes } from './authenticate.routes';
 const accountRouter = Router();
 
 accountRouter.use('/accounts', accountsRoutes);
-accountRouter.use('sessions', authRoutes);
+accountRouter.use('/sessions', authRoutes);
 
 export { accountRouter };

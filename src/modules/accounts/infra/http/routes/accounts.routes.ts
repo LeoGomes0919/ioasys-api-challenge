@@ -4,6 +4,8 @@ import { DeleteUserController } from '../controllers/DeleteUserController';
 import { DetailsUserController } from '../controllers/DetailsUserController';
 import { ListUserController } from '../controllers/ListUserController';
 import { UpdateUserController } from '../controllers/UpdateUserController';
+import { ensureAuthenticated } from '../../../../../shared/infra/http/middlewares/ensureAuthenticated';
+import { ensureAdmin } from '../../../../../shared/infra/http/middlewares/ensureAdmin';
 
 const accountsRoutes = Router();
 
@@ -14,9 +16,14 @@ const listUserController = new ListUserController();
 const deleteUserController = new DeleteUserController();
 
 accountsRoutes.post('/', createUserController.handle);
-accountsRoutes.put('/:id', updateUserController.handle);
-accountsRoutes.get('/:id', detailsUserController.handle);
-accountsRoutes.post('/list', listUserController.handle);
-accountsRoutes.delete('/:id', deleteUserController.handle);
+accountsRoutes.put('/:id', ensureAuthenticated, updateUserController.handle);
+accountsRoutes.get('/:id', ensureAuthenticated, detailsUserController.handle);
+accountsRoutes.post('/list', ensureAuthenticated, listUserController.handle);
+accountsRoutes.delete(
+  '/:id',
+  ensureAuthenticated,
+  ensureAdmin,
+  deleteUserController.handle,
+);
 
 export { accountsRoutes };
