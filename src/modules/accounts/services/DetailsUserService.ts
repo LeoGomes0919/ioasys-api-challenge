@@ -8,6 +8,7 @@ import { UserMap } from '../mapper/UserMap';
 
 interface IRequest {
   id: string;
+  userAuthenticated: string;
 }
 
 @injectable()
@@ -17,11 +18,20 @@ export class DetailsUserService {
     private usersRepository: UsersRepository,
   ) {}
 
-  async execute({ id }: IRequest): Promise<IUserResponseDTO> {
+  async execute({
+    id,
+    userAuthenticated,
+  }: IRequest): Promise<IUserResponseDTO> {
     const checkIsUuid = validate(id);
 
     if (!checkIsUuid) {
       throw new AppError('User not found');
+    }
+
+    const userAuth = await this.usersRepository.findById(userAuthenticated);
+
+    if (!userAuth.isAdmin && userAuthenticated !== id) {
+      throw new AppError('User is not an administrator', 403);
     }
 
     const user = await this.usersRepository.findById(id);

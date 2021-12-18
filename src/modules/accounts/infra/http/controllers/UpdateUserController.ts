@@ -5,6 +5,7 @@ import { UpdateUserService } from '../../../services/UpdateUserService';
 export class UpdateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+
     const { name, email, password, birthDate, uf, city, schooling } = req.body;
 
     const updateUserService = container.resolve(UpdateUserService);
