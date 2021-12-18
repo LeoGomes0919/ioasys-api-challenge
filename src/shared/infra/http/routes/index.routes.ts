@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { companyRoouter } from "../../../../modules/companies/infra/http/routes/index.routes";
-import { accountRouter } from "../../../../modules/accounts/infra/http/routes/index.routes";
+import { Router } from 'express';
+import { companyRoouter } from '../../../../modules/companies/infra/http/routes/index.routes';
+import { accountRouter } from '../../../../modules/accounts/infra/http/routes/index.routes';
 
 const routes = Router();
 
