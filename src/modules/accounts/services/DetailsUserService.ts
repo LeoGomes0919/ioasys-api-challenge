@@ -37,7 +37,7 @@ export class DetailsUserService {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new AppError('User not found');
+      throw new AppError('User not found', 404);
     }
 
     return UserMap.toDTO(user);
