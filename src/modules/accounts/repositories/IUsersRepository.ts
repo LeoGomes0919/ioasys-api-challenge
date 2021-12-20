@@ -22,6 +22,7 @@ export interface IUsersRepository {
   }: ICreateUserDTO): Promise<User>;
   findById(id: string): Promise<User>;
   findByEmail(email: string): Promise<User>;
+  findByName(name: string): Promise<User>;
   all({
     name,
     email,

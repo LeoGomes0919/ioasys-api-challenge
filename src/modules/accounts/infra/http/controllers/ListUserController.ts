@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { ListUserService } from '../../../services/ListUserService';
+import { ListAllUserService } from '../../../services/ListAllUserService';
 
 export class ListUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { name, email, birthDate, uf, city, schooling } = req.body;
 
-    const listUserService = container.resolve(ListUserService);
+    const listAllUserService = container.resolve(ListAllUserService);
 
-    const users = await listUserService.execute({
+    const users = await listAllUserService.execute({
       name,
       email,
       birthDate,

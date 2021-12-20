@@ -12,11 +12,10 @@ interface IRequest {
   uf?: string;
   city?: string;
   schooling?: SCHOLINGTYPE;
-  createdAt?: Date;
 }
 
 @injectable()
-export class ListUserService {
+export class ListAllUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: UsersRepository,

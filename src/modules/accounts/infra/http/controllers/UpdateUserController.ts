@@ -5,6 +5,7 @@ import { UpdateUserService } from '../../../services/UpdateUserService';
 export class UpdateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const { id: idAuthenticated } = req.user;
 
     const { name, email, password, birthDate, uf, city, schooling } = req.body;
 
@@ -19,6 +20,7 @@ export class UpdateUserController {
       uf,
       city,
       schooling,
+      idAuthenticated,
     });
 
     return res.status(200).json(user);

@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { UserCompany } from './UserCompany';
 
 import { SCHOLINGTYPE } from '../../../dtos/ICreateUserDTO';
 
@@ -38,6 +40,9 @@ export class User {
 
   @Column({ name: 'admin' })
   isAdmin?: boolean;
+
+  @OneToOne(() => UserCompany, userCompany => userCompany.user)
+  userCompany: UserCompany;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

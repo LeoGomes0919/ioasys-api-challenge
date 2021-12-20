@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { UserCompany } from '../../../../accounts/infra/typeorm/entities/UserCompany';
 
 @Entity('companies')
 export class Company {
@@ -27,6 +29,9 @@ export class Company {
 
   @Column()
   director: string;
+
+  @OneToMany(() => UserCompany, userCompany => userCompany.company)
+  companyUser: UserCompany;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

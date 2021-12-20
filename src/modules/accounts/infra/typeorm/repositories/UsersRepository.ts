@@ -44,7 +44,11 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findById(id: string): Promise<User> {
-    const user = await this.ormRepository.findOne(id);
+    const user = await this.ormRepository.findOne({
+      where: { id },
+      relations: ['userCompany', 'userCompany.company'],
+    });
+
     return user;
   }
 
@@ -64,11 +68,15 @@ export class UsersRepository implements IUsersRepository {
     const usersQuery = this.ormRepository.createQueryBuilder('u');
 
     if (name) {
-      usersQuery.where('u.name like :name', { name: `%${name}%` });
+      usersQuery.where('LOWER(u.name) like :name', {
+        name: `%${name.toLowerCase()}%`,
+      });
     }
 
     if (email) {
-      usersQuery.andWhere('u.email like :email', { email: `%${email}%` });
+      usersQuery.andWhere('LOWER(u.email) like :email', {
+        email: `%${email.toLowerCase()}%`,
+      });
     }
 
     if (birthDate) {
@@ -76,11 +84,15 @@ export class UsersRepository implements IUsersRepository {
     }
 
     if (uf) {
-      usersQuery.andWhere('u.uf like :uf', { uf: `%${uf}%` });
+      usersQuery.andWhere('LOWER(u.uf) like :uf', {
+        uf: `%${uf.toLowerCase()}%`,
+      });
     }
 
     if (city) {
-      usersQuery.andWhere('u.city like :city', { city: `%${city}%` });
+      usersQuery.andWhere('LOWER(u.city) like :city', {
+        city: `%${city.toLowerCase()}%`,
+      });
     }
 
     if (schooling) {
@@ -93,5 +105,10 @@ export class UsersRepository implements IUsersRepository {
 
   async delete(id: string): Promise<void> {
     await this.ormRepository.softDelete(id);
+  }
+
+  async findByName(name: string): Promise<User> {
+    const user = await this.ormRepository.findOne({ name });
+    return user;
   }
 }

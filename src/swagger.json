@@ -1,0 +1,1063 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Enterprises API",
+    "description": "API for managing companies and employees",
+    "version": "1.0.0",
+    "contact": {
+      "email": "leonardogs0919@gmail.com"
+    }
+  },
+  "paths": {
+    "/accounts": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Cria uma conta de usuário",
+        "description": "Executar a criação da conta do usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "birthDate": {
+                    "type": "date"
+                  },
+                  "uf": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "schooling": {
+                    "type": "string",
+                    "enum": [
+                      "Fundamental, Médio, Superior, Pós-graduação, Doutorado"
+                    ]
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@gmail.com",
+                  "password": "1234",
+                  "birthDate": "1987-11-02",
+                  "uf": "Goias",
+                  "city": "Goiânia",
+                  "schooling": "Superior"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Email address already exists"
+          }
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Atualiza a conta de um usuário",
+        "description": "Atualiza a conta de um usuário informado seu ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "birthDate": {
+                    "type": "date"
+                  },
+                  "uf": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "schooling": {
+                    "type": "string",
+                    "enum": [
+                      "Fundamental, Médio, Superior, Pós-graduação, Doutorado"
+                    ]
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@gmail.com",
+                  "password": "1234",
+                  "birthDate": "1987-11-02",
+                  "uf": "Goias",
+                  "city": "Goiânia",
+                  "schooling": "Superior"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Lista os dados da conta de um usuário",
+        "description": "Lista os dados de um usuário e a empresa em que ele é vinculado",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                      "name": "John Doe",
+                      "email": "john@gmail.com",
+                      "birthDate": "1987-11-02T00:00:00.000Z",
+                      "city": "Goiânia",
+                      "uf": "Goias",
+                      "isAdmin": false,
+                      "schooling": "Superior",
+                      "userCompany": {
+                        "id": "725f0936-4dd4-41e0-963f-aba71c236f7a",
+                        "user_id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                        "company_id": "49e784dc-ec4c-44cc-b547-ab95d9e91d7c",
+                        "office": "Empregado",
+                        "createdAt": "2021-12-19T13:26:50.006Z",
+                        "updatedAt": "2021-12-19T13:29:38.472Z",
+                        "deletedAt": null,
+                        "company": {
+                          "id": "49e784dc-ec4c-44cc-b547-ab95d9e91d7c",
+                          "name": "Empresa Teste",
+                          "occupationArea": "Energia",
+                          "foundedIn": "2021-12-19T13:10:11.841Z",
+                          "description": "Empresa criada para teste",
+                          "director": "Leonardo Gomes",
+                          "createdAt": "2021-12-19T12:10:41.365Z",
+                          "updatedAt": "2021-12-19T13:10:10.134Z",
+                          "deletedAt": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User is not an administrator"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Realizar exclusão logica de um usuário",
+        "description": "Exclui de forma logica um usuário selecionado pelo ID informado",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User is not an administrator"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/accounts/list": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Listar todos os usuários cadastrados",
+        "description": "Lista todos os usuários cadastrados de qualquer empresa, podendo filtrar por quaisquer campo do seu cadastro",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "birthDate": {
+                    "type": "date"
+                  },
+                  "uf": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "schooling": {
+                    "type": "string",
+                    "enum": [
+                      "Fundamental, Médio, Superior, Pós-graduação, Doutorado"
+                    ]
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@gmail.com",
+                  "password": "1234",
+                  "birthDate": "1987-11-02",
+                  "uf": "Goias",
+                  "city": "Goiânia",
+                  "schooling": "Superior"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": [
+                      {
+                        "id": "1ed5b480-1f7f-4f2b-8b1b-c29e3f75062b",
+                        "name": "John Doe",
+                        "email": "john@gmail.com",
+                        "birthDate": "1987-11-02T00:00:00.000Z",
+                        "city": "Goiânia",
+                        "uf": "Goias",
+                        "isAdmin": false,
+                        "schooling": "Superior"
+                      },
+                      {
+                        "id": "42550f0e-411f-43e0-b2d5-f05ee38044d8",
+                        "name": "Leonardo Gomes",
+                        "email": "leo1@gmail.com",
+                        "birthDate": "1997-09-19T00:00:00.000Z",
+                        "city": "Goiânia",
+                        "uf": "Goias",
+                        "isAdmin": false,
+                        "schooling": "Superior"
+                      },
+                      {
+                        "id": "a7c674a1-228a-4af3-ba80-9097db2a3897",
+                        "name": "Johna Doe",
+                        "email": "johna@gmail.com",
+                        "birthDate": "1999-05-22T00:00:00.000Z",
+                        "city": "Goiânia",
+                        "uf": "Goias",
+                        "isAdmin": true,
+                        "schooling": "Médio"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User is not an administrator"
+          }
+        }
+      }
+    },
+    "/accounts/link/user_company": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Vincula um usuário a uma empresa",
+        "description": "Realiza o vinculo de um usuário a uma empresa e definindo um cargo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "string"
+                  },
+                  "company_id": {
+                    "type": "string"
+                  },
+                  "office": {
+                    "type": "string",
+                    "enum": [
+                      "Gestor, Diretor, Empregado"
+                    ]
+                  }
+                },
+                "example": {
+                  "user_id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                  "company_id": "49e784dc-ec4c-44cc-b547-ab95d9e91d7c",
+                  "office": "Gestor"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Action not allowed"
+          },
+          "404": {
+            "description": "User or Company not found"
+          }
+        }
+      }
+    },
+    "/accounts/unlink/user_company": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Desvincular um usuário de uma empresa",
+        "description": "Realiza o desvínculo de um usuário de uma empresa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "string"
+                  },
+                  "company_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "user_id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                  "company_id": "49e784dc-ec4c-44cc-b547-ab95d9e91d7c"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "User or Company is not linked to each other"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Action not allowed"
+          },
+          "404": {
+            "description": "User or Company not found"
+          }
+        }
+      }
+    },
+    "/accounts/company/{id}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da empresa",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Listar os usuários de uma empresa",
+        "description": "Lista todos os usuários de uma empresa podendo filtrar por quaisquer campo de usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "birthDate": {
+                    "type": "date"
+                  },
+                  "uf": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "schooling": {
+                    "type": "string",
+                    "enum": [
+                      "Fundamental, Médio, Superior, Pós-graduação, Doutorado"
+                    ]
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@gmail.com",
+                  "password": "1234",
+                  "birthDate": "1987-11-02",
+                  "uf": "Goias",
+                  "city": "Goiânia",
+                  "schooling": "Superior"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "8b21425a-f847-42ba-b937-e26e14a29956",
+                      "user_id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                      "company_id": "c73ca64b-3eb5-432e-9acd-04558001150b",
+                      "office": "Diretor",
+                      "createdAt": "2021-12-19T13:16:26.452Z",
+                      "updatedAt": "2021-12-20T03:14:11.911Z",
+                      "deletedAt": null,
+                      "user": {
+                        "id": "a674ebab-863e-4aa1-a81a-44843056cbf2",
+                        "name": "Johna Doe",
+                        "email": "johna@gmail.com",
+                        "password": "$2a$08$blWe8df2.c53MnDVdojosOmFIL8dFJuLPTNFuu75tFgrF4gyFLeUO",
+                        "birthDate": "1987-11-02T00:00:00.000Z",
+                        "uf": "Goias",
+                        "city": "Goiânia",
+                        "schooling": "Médio",
+                        "isAdmin": false,
+                        "createdAt": "2021-12-19T12:13:10.812Z",
+                        "updatedAt": "2021-12-20T00:41:23.487Z",
+                        "deletedAt": null
+                      }
+                    },
+                    {
+                      "id": "2dfcb446-bdbb-49f8-bd69-da554df336e0",
+                      "user_id": "1ed5b480-1f7f-4f2b-8b1b-c29e3f75062b",
+                      "company_id": "c73ca64b-3eb5-432e-9acd-04558001150b",
+                      "office": "Empregado",
+                      "createdAt": "2021-12-20T03:34:00.075Z",
+                      "updatedAt": "2021-12-20T03:34:00.075Z",
+                      "deletedAt": null,
+                      "user": {
+                        "id": "1ed5b480-1f7f-4f2b-8b1b-c29e3f75062b",
+                        "name": "John Doe",
+                        "email": "john@gmail.com",
+                        "password": "$2a$08$zuWakeQeGqcxGMI0VSOfse9zCSYNpYuI9dYMtoq5168rKYa1HJ2Ba",
+                        "birthDate": "1987-11-02T00:00:00.000Z",
+                        "uf": "Goias",
+                        "city": "Goiânia",
+                        "schooling": "Superior",
+                        "isAdmin": false,
+                        "createdAt": "2021-12-19T14:36:43.639Z",
+                        "updatedAt": "2021-12-19T14:36:43.639Z",
+                        "deletedAt": null
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid office or schooling"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      }
+    },
+    "/companies": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Realiza cadastro de empresas",
+        "description": "Cadastrar empresa no banco de dados",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "foundedIn": {
+                    "type": "date"
+                  },
+                  "occupationArea": {
+                    "type": "string"
+                  },
+                  "director": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Empresa 1",
+                  "description": "Empresa 1 criada",
+                  "foundedIn": "2021-12-20T01:38:01.607Z",
+                  "occupationArea": "Tecnologia",
+                  "director": "john@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "c73ca64b-3eb5-432e-9acd-04558001150b",
+                    "name": "Empresa Teste",
+                    "occupationArea": "Tecnologia",
+                    "foundedIn": "2021-12-19T13:16:28.115Z",
+                    "description": "Empresa Teste criada",
+                    "director": "john@gmail.com",
+                    "deletedAt": null,
+                    "createdAt": "2021-12-19T13:16:26.414Z",
+                    "updatedAt": "2021-12-19T13:16:26.414Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Company already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User administrators cannot be linked to companies"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/companies/list": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "summary": "Listar todas as empresas cadastradas",
+        "description": "Lista todas as empresas cadastradas, podendo filtrar por quaisquer campo do seu cadastro",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "foundedIn": {
+                    "type": "date"
+                  },
+                  "occupationArea": {
+                    "type": "string"
+                  },
+                  "director": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Empresa 1",
+                  "description": "Empresa 1 criada",
+                  "foundedIn": "2021-12-20T01:38:01.607Z",
+                  "occupationArea": "Tecnologia",
+                  "director": "john@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "id": "49e784dc-ec4c-44cc-b547-ab95d9e91abc",
+                      "name": "Empresa Teste",
+                      "occupationArea": "Energia",
+                      "foundedIn": "2021-12-19T13:10:11.841Z",
+                      "description": "Empresa criada para teste",
+                      "director": "john Doe",
+                      "createdAt": "2021-12-19T12:10:41.365Z",
+                      "updatedAt": "2021-12-19T13:10:10.134Z",
+                      "deletedAt": null
+                    },
+                    {
+                      "id": "49e784dc-ec4c-44cc-b547-ab95d9e91bca",
+                      "name": "Empresa",
+                      "occupationArea": "Tecnologia",
+                      "foundedIn": "2021-12-19T13:10:11.841Z",
+                      "description": "Empresa criada para teste",
+                      "director": "Leonardo Gomes",
+                      "createdAt": "2021-12-19T12:10:41.365Z",
+                      "updatedAt": "2021-12-19T13:10:10.134Z",
+                      "deletedAt": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User is not an administrato"
+          }
+        }
+      }
+    },
+    "/companies/{id}": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da empresa",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Realizar a edição de uma empresa",
+        "description": "Atualiza o cadastro de uma empresa selecionada pelo ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "foundedIn": {
+                    "type": "date"
+                  },
+                  "occupationArea": {
+                    "type": "string"
+                  },
+                  "director": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Empresa 1",
+                  "description": "Empresa 1 criada",
+                  "foundedIn": "2021-12-20T01:38:01.607Z",
+                  "occupationArea": "Tecnologia",
+                  "director": "john@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "c73ca64b-3eb5-432e-9acd-04558001150b",
+                    "name": "Empresa Teste",
+                    "occupationArea": "Tecnologia",
+                    "foundedIn": "2021-12-19T13:16:28.115Z",
+                    "description": "Empresa Teste criada",
+                    "director": "john@gmail.com",
+                    "deletedAt": null,
+                    "createdAt": "2021-12-19T13:16:26.414Z",
+                    "updatedAt": "2021-12-19T13:16:26.414Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Company already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User administrators cannot be linked to companies | User is not an administrator"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da empresa",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Listar os dados de uma empresa",
+        "description": "Lista os dados de uma empresa selecionada pelo ID",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "c73ca64b-3eb5-432e-9acd-04558001150b",
+                    "name": "Empresa 1",
+                    "occupationArea": "Tecnologia",
+                    "foundedIn": "2021-12-19T13:16:28.115Z",
+                    "description": "Empresa 1 criada",
+                    "director": "Elza",
+                    "createdAt": "2021-12-19T13:16:26.414Z",
+                    "updatedAt": "2021-12-19T13:18:30.771Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da empresa",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Realizar exclusão logica de uma empresa",
+        "description": "Exclui de forma logica uma empresa selecionado pelo ID informado",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User is not an administrator"
+          },
+          "404": {
+            "description": "Company not found"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Realizar login de usuário",
+        "description": "Realizar a autenticação do usuário no sistema",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "john@gmail.com",
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Mzk5NjMxMDcsImV4cCI6MTYzOTk2NjcwNywic3ViIjoiMWVkNWI0ODAtMWY3Zi00ZjJiLThiMWItYzI5ZTNmNzUwNjJiIn0.ECO-V4yFadajIDnZd6Avc_snu0czR2KX2ah9yH2Eznk",
+                    "user": {
+                      "name": "John Doe",
+                      "email": "john@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "error",
+                    "message": "Email or Password incorrect"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

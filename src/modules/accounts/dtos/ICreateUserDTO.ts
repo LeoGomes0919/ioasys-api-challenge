@@ -17,4 +17,5 @@ export interface ICreateUserDTO {
   uf: string;
   city: string;
   schooling: SCHOLINGTYPE;
+  idAuthenticated?: string;
 }

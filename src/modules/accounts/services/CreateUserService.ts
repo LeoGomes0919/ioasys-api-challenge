@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { hash } from 'bcryptjs';
+import { UserMap } from '../mapper/UserMap';
 
 import { User } from '../infra/typeorm/entities/User';
 import { ICreateUserDTO, SCHOLINGTYPE } from '../dtos/ICreateUserDTO';
@@ -48,6 +49,6 @@ export class CreateUserService {
       schooling,
     });
 
-    return user;
+    return UserMap.toDTO(user) as User;
   }
 }

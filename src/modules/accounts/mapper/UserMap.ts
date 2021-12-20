@@ -13,6 +13,7 @@ export class UserMap {
     uf,
     isAdmin,
     schooling,
+    userCompany,
   }: User): IUserResponseDTO {
     const user = instanceToInstance({
       id,
@@ -23,6 +24,7 @@ export class UserMap {
       uf,
       isAdmin,
       schooling,
+      userCompany,
     });
     return user;
   }
